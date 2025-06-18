@@ -1,0 +1,17 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "physio_keylogger"
+version = "0.1.0"
+description = "The following code starts recording immediately upon launch and stops when Ctrl + C is pressed. It only works when run as a superuser and relies on the keyboard library."
+authors = ["Aziz Ndiaye <a.ndiaye@catie.fr>"]
+readme = "README.md"
+packages = [{ include = "dummy_project" }]
+
+[tool.poetry.scripts]
+dummy_project = "dummy_project.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.11"

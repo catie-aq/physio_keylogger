@@ -1,0 +1,31 @@
+name: Deploy
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+
+jobs:
+  docker-test:
+    uses: catie-aq/generic_workflows/.github/workflows/docker-test.yaml@main
+    with:
+      dockerfile: Dockerfile
+      ignore: DL3008, DL3015, SC1091
+  docker-ghcr:
+    needs: docker-test
+    uses: catie-aq/generic_workflows/.github/workflows/docker-ghcr.yml@main
+    with:
+      target: prod
+  deployment:
+    needs: docker-ghcr
+    uses: catie-aq/generic_workflows/.github/workflows/deploy-helm.yml@main
+    with:
+      release_name: physio_keylogger
+      namespace: sonu
+      extra_args: --recreate-pods
+    secrets:
+      
+      KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      

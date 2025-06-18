@@ -1,0 +1,13 @@
+name: Publish tag when a new version pushed on main
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  poetry-test:
+    uses: catie-aq/python_workflows/.github/workflows/poetry-tag.yml@main
+    with:
+      image: python:3.11

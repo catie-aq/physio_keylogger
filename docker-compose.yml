@@ -1,0 +1,12 @@
+version: '3'
+services:
+  physio_keylogger:
+    container_name: physio_keylogger
+    image: physio_keylogger:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Put here the environment variables that you want to pass to the container
+    network_mode: host
+    privileged: true

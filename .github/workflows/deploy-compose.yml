@@ -1,0 +1,10 @@
+name: Docker Build Deploy
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+
+jobs:
+  docker-compose-deploy:
+    uses: catie-aq/generic_workflows/.github/workflows/deploy-compose.yml@main
