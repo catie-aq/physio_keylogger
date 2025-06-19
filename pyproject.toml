@@ -10,11 +10,14 @@ authors = ["Aziz Ndiaye <a.ndiaye@catie.fr>"]
 readme = "README.md"
 packages = [{ include = "keylogger" }]
 
+[tool.poetry.dev-dependencies]
+pyinstaller = "^6.0.0"
+
 [tool.poetry.scripts]
 convert_key_to_csv = "keylogger.cli:convert_key_to_csv"
 
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.8,<3.14"
 keyboard = "^0.13.5"
 click = "^8.1.7"
