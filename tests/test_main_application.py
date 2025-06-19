@@ -10,5 +10,6 @@ class TestMainApp(unittest.TestCase):
     def test_name(self):
         self.assertEqual(self.my_app.name, "My Application")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
