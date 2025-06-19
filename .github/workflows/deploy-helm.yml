@@ -26,6 +26,5 @@ jobs:
       namespace: sonu
       extra_args: --recreate-pods
     secrets:
-      
+
       KUBECONFIG: ${{ secrets.KUBECONFIG }}
-      
