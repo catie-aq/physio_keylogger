@@ -10,9 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class MainApp:
-    """
-    A simple keylogger application.
-    """
+    """A simple keylogger application."""
 
     def __init__(self, output_dir="."):
         self.name = "Physio Keylogger"
@@ -21,6 +19,7 @@ class MainApp:
 
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"keylogger_{timestamp}.csv"
+        os.makedirs(output_dir, exist_ok=True)  
         filepath = os.path.join(output_dir, filename)
 
         self.log_file = open(filepath, "w", newline="", encoding="utf-8")
