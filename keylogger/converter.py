@@ -19,7 +19,7 @@ class MainApp:
 
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"keylogger_{timestamp}.csv"
-        os.makedirs(output_dir, exist_ok=True)  
+        os.makedirs(output_dir, exist_ok=True)
         filepath = os.path.join(output_dir, filename)
 
         self.log_file = open(filepath, "w", newline="", encoding="utf-8")

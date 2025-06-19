@@ -24,6 +24,9 @@ To use physio_keylogger, follow these steps:
 poetry run dummy_project
 sudo -E poetry run convert_key_to_csv --output ./logs
 ```
+ou
+
+sudo ./dist/keylogger/keylogger-gui
 
 ## License
 
