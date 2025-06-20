@@ -6,6 +6,8 @@ import sys
 import click
 import signal
 from keylogger.key import MainApp
+
+
 @click.command()
 @click.option(
     "--output",
@@ -29,5 +31,7 @@ def convert_key_to_csv(output):
         app.run()
     except KeyboardInterrupt:
         stop_handler(None, None)
+
+
 if __name__ == "__main__":
     convert_key_to_csv()
