@@ -31,7 +31,7 @@ sudo -E poetry run convert_key_to_csv --output ./logs
 ```
 
 - The keylogger will start immediately and save logs in the specified directory.
-- Press `Ctrl+C` to stop recording.
+- Press `Ctrl+C` to stop recording while the terminal is focused.
 
 ### Keylogger GUI
 
