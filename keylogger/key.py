@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2025 CATIE
+
 import time
 import logging
 import keyboard as kb
