@@ -4,7 +4,7 @@ import os
 import sys
 import click
 import signal
-from keylogger.converter import MainApp
+from keylogger.key import MainApp
 
 
 @click.command()
