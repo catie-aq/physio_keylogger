@@ -15,10 +15,28 @@ from keylogger.key import MainApp
     default=".",
     help="Output directory for the CSV file.",
 )
-def convert_key_to_csv(output):
+@click.option(
+    "--U",
+    is_flag=True,
+    help="Capture key up events.",
+)
+@click.option(
+    "--D",
+    is_flag=True,
+    help="Capture key down events.",
+)
+def convert_key_to_csv(output, u, d):
     """Start the keylogger (Ctrl+C to stop)."""
-    click.echo("Starting keylogger...")
-    app = MainApp(output_dir=output)
+    event_filter = set()
+    if u:
+        event_filter.add("up")
+    if d:
+        event_filter.add("down")
+    if not event_filter:
+        event_filter = {"up", "down"}
+
+    click.echo(f"Starting keylogger with events: {', '.join(event_filter)}")
+    app = MainApp(output_dir=output, event_filter=event_filter)
 
     def stop_handler(sig, frame):
         click.echo("Stopping keylogger...")
