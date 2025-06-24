@@ -37,7 +37,7 @@ class KeyloggerGUI(tk.Tk):
         self.key_press = []
         self.start_time = None
         self.writer = None
-        self.record_up = tk.BooleanVar(value=True)
+        self.record_up = tk.BooleanVar(value=False)
         self.record_down = tk.BooleanVar(value=True)
 
         self.create_widgets()
@@ -55,12 +55,12 @@ class KeyloggerGUI(tk.Tk):
         )
 
         # Checkboxes for event types
-        self.up_checkbox = tk.Checkbutton(self, text="Key Up", variable=self.record_up)
-        self.up_checkbox.grid(row=1, column=0, padx=5, pady=5)
         self.down_checkbox = tk.Checkbutton(
             self, text="Key Down", variable=self.record_down
         )
-        self.down_checkbox.grid(row=1, column=1, padx=5, pady=5)
+        self.down_checkbox.grid(row=1, column=0, padx=5, pady=5)
+        self.up_checkbox = tk.Checkbutton(self, text="Key Up", variable=self.record_up)
+        self.up_checkbox.grid(row=1, column=1, padx=5, pady=5)
 
         # Start and Stop buttons
         self.start_btn = tk.Button(self, text="Start", command=self.start_logging)
@@ -132,7 +132,7 @@ class KeyloggerGUI(tk.Tk):
                 print(f"{key.name} ({key.event_type})")
 
             keyboard.hook(on_key_event)
-            keyboard.wait()  
+            keyboard.wait()
 
         except Exception as e:
             print(f"Error: {e}")
