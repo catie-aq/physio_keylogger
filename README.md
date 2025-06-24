@@ -7,6 +7,7 @@ This project provides both a command-line interface (CLI) and a graphical user i
 - Record keyboard events and save them as CSV files.
 - Command-line interface for quick usage.
 - Graphical user interface for interactive usage.
+- Filter which key events to record (key up, key down, or both).
 
 ## Installation
 
@@ -25,10 +26,25 @@ To start recording keyboard events and save them as a CSV file:
 ```shell
 sudo -E poetry run convert_key_to_csv --output /path/to/output_directory
 ```
-Example :
+
+Example:
 ```shell
 sudo -E poetry run convert_key_to_csv --output ./logs
 ```
+
+You can also filter which events to record:
+- Only key up events:
+  ```shell
+  sudo -E poetry run convert_key_to_csv --output ./tests --U
+  ```
+- Only key down events:
+  ```shell
+  sudo -E poetry run convert_key_to_csv --output ./tests --D
+  ```
+- Both key up and key down events (default, or specify both):
+  ```shell
+  sudo -E poetry run convert_key_to_csv --output ./tests --U --D
+  ```
 
 - The keylogger will start immediately and save logs in the specified directory.
 - Press `Ctrl+C` to stop recording while the terminal is focused.
@@ -68,7 +84,7 @@ poetry run pyinstaller keylogger_cli.spec
 poetry run pyinstaller keylogger_cli.spec
 ```
 
-The standalone executables will be created in the `dist//keylogger/` directory:
+The standalone executables will be created in the `dist/keylogger/` directory:
 - `keylogger.exe` (CLI)
 - `keylogger-gui.exe` (GUI)
 
