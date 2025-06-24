@@ -15,10 +15,11 @@ logger = logging.getLogger(__name__)
 class MainApp:
     """keylogger application."""
 
-    def __init__(self, output_dir="."):
+    def __init__(self, output_dir=".", event_filter=None):
         self.name = "Physio Keylogger"
         self.start_time = time.time()
         self.key_press = []
+        self.event_filter = event_filter or {"up", "down"}
 
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"keylogger_{timestamp}.csv"
@@ -39,11 +40,17 @@ class MainApp:
 
     def on_press(self, key):
         """Handle key press events."""
-        if key.event_type == "down" and key.scan_code not in self.key_press:
-            self.key_press.append(key.scan_code)
+        if key.event_type not in self.event_filter:
+            return
+
+        if key.event_type == "down":
+            if key.scan_code not in self.key_press:
+                self.key_press.append(key.scan_code)
             self.write(key)
-        elif key.event_type == "up" and key.scan_code in self.key_press:
-            self.key_press.remove(key.scan_code)
+
+        elif key.event_type == "up":
+            if key.scan_code in self.key_press:
+                self.key_press.remove(key.scan_code)
             self.write(key)
 
     def run(self):
