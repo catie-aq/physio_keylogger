@@ -37,9 +37,10 @@ class KeyloggerGUI(tk.Tk):
         self.key_press = []
         self.start_time = None
         self.writer = None
-        self.record_up = tk.BooleanVar(value=False)
-        self.record_down = tk.BooleanVar(value=True)
+        self.record_key_up = tk.BooleanVar(value=False)
+        self.record_key_down = tk.BooleanVar(value=True)
         self.record_key_name = tk.BooleanVar(value=False)
+        self.record_scan_code = tk.BooleanVar(value=True)
 
         self.create_widgets()
 
@@ -56,26 +57,36 @@ class KeyloggerGUI(tk.Tk):
         )
 
         # Checkboxes for event types
-        self.down_checkbox = tk.Checkbutton(
-            self, text="Key Down", variable=self.record_down
-        )
-        self.down_checkbox.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        checkbox_frame = tk.Frame(self)
+        checkbox_frame.grid(row=3, column=0, columnspan=4, padx=5, pady=5, sticky="w")
 
-        self.up_checkbox = tk.Checkbutton(self, text="Key Up", variable=self.record_up)
-        self.up_checkbox.grid(row=2, column=0, padx=5, pady=5, sticky="w")
+        self.down_checkbox = tk.Checkbutton(
+            checkbox_frame, text="Key Down", variable=self.record_key_down
+        )
+        self.down_checkbox.pack(side="left", padx=5)
+
+        self.up_checkbox = tk.Checkbutton(
+            checkbox_frame, text="Key Up", variable=self.record_key_up
+        )
+        self.up_checkbox.pack(side="left", padx=5)
 
         self.keyname_checkbox = tk.Checkbutton(
-            self, text="Key Name", variable=self.record_key_name
+            checkbox_frame, text="Key Name", variable=self.record_key_name
         )
-        self.keyname_checkbox.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+        self.keyname_checkbox.pack(side="left", padx=5)
+
+        self.scancode_checkbox = tk.Checkbutton(
+            checkbox_frame, text="Scan Code", variable=self.record_scan_code
+        )
+        self.scancode_checkbox.pack(side="left", padx=5)
 
         # Start and Stop buttons
         self.start_btn = tk.Button(self, text="Start", command=self.start_logging)
-        self.start_btn.grid(row=3, column=1, pady=5)
+        self.start_btn.grid(row=3, column=1, padx=(5, 2), pady=5, sticky="e")
         self.stop_btn = tk.Button(
             self, text="Stop", command=self.stop_logging, state="disabled"
         )
-        self.stop_btn.grid(row=3, column=2, pady=5)
+        self.stop_btn.grid(row=3, column=2, padx=(2, 5), pady=5, sticky="w")
 
         # Text output
         self.textbox = scrolledtext.ScrolledText(self, height=15, state="disabled")
@@ -100,6 +111,7 @@ class KeyloggerGUI(tk.Tk):
         self.up_checkbox.config(state="disabled")
         self.down_checkbox.config(state="disabled")
         self.keyname_checkbox.config(state="disabled")
+        self.scancode_checkbox.config(state="disabled")
 
         self.textbox.configure(state="normal")
         self.textbox.delete("1.0", tk.END)
@@ -115,7 +127,13 @@ class KeyloggerGUI(tk.Tk):
         try:
             self.log_file = open(filepath, "w", newline="", encoding="utf-8")
             self.writer = csv.writer(self.log_file)
-            self.writer.writerow(["timestamp_ms", "scan_code", "key", "event"])
+            header = ["timestamp_ms"]
+            if self.record_scan_code.get():
+                header.append("scan_code")
+            if self.record_key_name.get():
+                header.append("key")
+            header.append("event")
+            self.writer.writerow(header)
             self.start_time = time.time()
 
             sys.stdout = sys.stderr = PrintRedirector(self.textbox)
@@ -124,19 +142,22 @@ class KeyloggerGUI(tk.Tk):
             def on_key_event(key):
                 if not self.is_running:
                     return
-                if key.event_type == "up" and not self.record_up.get():
+                if key.event_type == "up" and not self.record_key_up.get():
                     return
-                if key.event_type == "down" and not self.record_down.get():
+                if key.event_type == "down" and not self.record_key_down.get():
                     return
                 curr_time = int((key.time - self.start_time) * 1000)
-                key_name = key.name if self.record_key_name.get() else ""
+                row = [curr_time]
+                if self.record_scan_code.get():
+                    row.append(key.scan_code)
+                if self.record_key_name.get():
+                    row.append(key.name)
+                row.append(key.event_type)
                 if key.event_type == "down" and key.scan_code not in self.key_press:
                     self.key_press.append(key.scan_code)
                 elif key.event_type == "up" and key.scan_code in self.key_press:
                     self.key_press.remove(key.scan_code)
-                self.writer.writerow(
-                    [curr_time, key.scan_code, key_name, key.event_type]
-                )
+                self.writer.writerow(row)
                 self.log_file.flush()
                 print(f"{key.name} ({key.event_type})")
 
@@ -158,6 +179,7 @@ class KeyloggerGUI(tk.Tk):
         self.up_checkbox.config(state="normal")
         self.down_checkbox.config(state="normal")
         self.keyname_checkbox.config(state="normal")
+        self.scancode_checkbox.config(state="normal")
         print("Logging stopped.")
 
 
