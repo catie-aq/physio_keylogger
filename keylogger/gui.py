@@ -35,7 +35,7 @@ class KeyloggerGUI(tk.Tk):
         self.is_running = False
         self.log_file = None
         self.key_press = []
-        self.start_time = None
+        self.start_time = time.time()
         self.writer = None
         self.record_key_up = tk.BooleanVar(value=False)
         self.record_key_down = tk.BooleanVar(value=True)
@@ -134,7 +134,6 @@ class KeyloggerGUI(tk.Tk):
                 header.append("key")
             header.append("event")
             self.writer.writerow(header)
-            self.start_time = time.time()
 
             sys.stdout = sys.stderr = PrintRedirector(self.textbox)
             print(f"Logging to {filepath}")
