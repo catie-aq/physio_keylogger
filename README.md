@@ -54,7 +54,8 @@ You can also filter which events to record:
 To use the graphical interface:
 
 ```shell
-sudo poetry run python -m keylogger.gui
+sudo ./dist/keylogger/keylogger-gui
+
 ```
 
 - Select the output directory and use the Start/Stop buttons to control logging.
@@ -76,12 +77,12 @@ Then, to build both executables:
 
 **On Linux:**
 ```shell
-poetry run pyinstaller keylogger_cli.spec
+poetry run pyinstaller keylogger.spec
 ```
 
 **On Windows:**
 ```powershell
-poetry run pyinstaller keylogger_cli.spec
+poetry run pyinstaller keylogger.spec
 ```
 
 The standalone executables will be created in the `dist/keylogger/` directory:
