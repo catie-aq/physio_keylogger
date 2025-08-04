@@ -11,7 +11,7 @@ readme = "README.md"
 packages = [{ include = "keylogger" }]
 
 [tool.poetry.dev-dependencies]
-pyinstaller = "^6.0.0"
+pyinstaller = "^6.15.0"
 
 [tool.poetry.scripts]
 convert_key_to_csv = "keylogger.cli:convert_key_to_csv"
