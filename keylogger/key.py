@@ -27,7 +27,7 @@ class MainApp:
         self.name = "Physio Keylogger"
         self.start_time = start_time if start_time is not None else time.time()
         self.gui_queue = gui_queue
-        self._key_press: Set[int] = set() 
+        self._key_press: Set[int] = set()
 
         self._record_key_down = False
         self._record_key_up = False
@@ -120,11 +120,11 @@ class MainApp:
         if key.event_type == "down":
             if key.scan_code not in self._key_press:
                 self._key_press.add(key.scan_code)
-                self.write(key)  
+                self.write(key)
         elif key.event_type == "up":
             if key.scan_code in self._key_press:
                 self._key_press.remove(key.scan_code)
-            self.write(key)  
+            self.write(key)
 
     def run(self) -> None:
         self._write_headers()
