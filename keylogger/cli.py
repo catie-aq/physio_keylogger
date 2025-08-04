@@ -25,22 +25,31 @@ from keylogger.key import MainApp
     is_flag=True,
     help="Capture key down events.",
 )
-def convert_key_to_csv(output, u, d):
+@click.option(
+    "--key-name/--no-key-name",
+    default=True,
+    help="Include key name in CSV.",
+)
+@click.option(
+    "--scan-code/--no-scan-code",
+    default=True,
+    help="Include scan code in CSV.",
+)
+def cli(output, u, d, key_name, scan_code):
     """Start the keylogger (Ctrl+C to stop)."""
-    event_filter = set()
-    if u:
-        event_filter.add("up")
-    if d:
-        event_filter.add("down")
-    if not event_filter:
-        event_filter = {"up", "down"}
 
-    click.echo(f"Starting keylogger with events: {', '.join(event_filter)}")
-    app = MainApp(output_dir=output, event_filter=event_filter)
+    click.echo("Starting keylogger...")
+    app = MainApp(output_dir=output)
+
+    # Configure event types
+    app.record_key_down = d or not (u or d)
+    app.record_key_up = u or not (u or d)
+    app.record_key_name = key_name
+    app.record_scan_code = scan_code
 
     def stop_handler(sig, frame):
         click.echo("Stopping keylogger...")
-        app.log_file.close()
+        app.stop()
         sys.exit(0)
 
     signal.signal(signal.SIGINT, stop_handler)
@@ -52,4 +61,4 @@ def convert_key_to_csv(output, u, d):
 
 
 if __name__ == "__main__":
-    convert_key_to_csv()
+    cli()
