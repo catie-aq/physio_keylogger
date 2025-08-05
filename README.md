@@ -24,26 +24,26 @@ poetry install
 To start recording keyboard events and save them as a CSV file:
 
 ```shell
-sudo -E poetry run convert_key_to_csv --output /path/to/output_directory
+sudo -E poetry run keylogger --output /path/to/output_directory
 ```
 
 Example:
 ```shell
-sudo -E poetry run convert_key_to_csv --output ./logs
+sudo -E poetry run keylogger --output ./logs
 ```
 
 You can also filter which events to record:
 - Only key up events:
   ```shell
-  sudo -E poetry run convert_key_to_csv --output ./tests --U
+  sudo -E poetry run keylogger --output ./tests --U
   ```
 - Only key down events:
   ```shell
-  sudo -E poetry run convert_key_to_csv --output ./tests --D
+  sudo -E poetry run keylogger --output ./tests --D
   ```
 - Both key up and key down events (default, or specify both):
   ```shell
-  sudo -E poetry run convert_key_to_csv --output ./tests --U --D
+  sudo -E poetry run keylogger --output ./tests --U --D
   ```
 
 - The keylogger will start immediately and save logs in the specified directory.
@@ -55,7 +55,6 @@ To use the graphical interface:
 
 ```shell
 sudo ./dist/keylogger/keylogger-gui
-
 ```
 
 - Select the output directory and use the Start/Stop buttons to control logging.
