@@ -114,17 +114,18 @@ class MainApp:
                 pass
 
     def on_press(self, key: kb.KeyboardEvent) -> None:
-        if key.event_type not in self.event_filter:
-            return
-
+        
         if key.event_type == "down":
             if key.scan_code not in self._key_press:
                 self._key_press.add(key.scan_code)
-                self.write(key)
+                if key.event_type in self.event_filter:
+                    self.write(key)
+                    
         elif key.event_type == "up":
             if key.scan_code in self._key_press:
                 self._key_press.remove(key.scan_code)
-            self.write(key)
+                if key.event_type in self.event_filter:
+                    self.write(key)
 
     def run(self) -> None:
         self._write_headers()
