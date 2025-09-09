@@ -87,7 +87,7 @@ class KeyloggerGUI:
                 self.log_box.config(state="disabled")
         except Empty:
             pass
-        self.master.after(50, self.update_gui_log)
+        self.master.after(10, self.update_gui_log)
 
     def start_logger(self):
         if self.global_start_time is None:
